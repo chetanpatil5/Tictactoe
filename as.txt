@@ -1,0 +1,206 @@
+#include<stdio.h>
+void display(char arr[3][3]);
+void player_move(char arr[3][3]);
+void computer_move(char arr[3][3]);
+void check(char arr[3][3]);
+
+int main()
+{
+	char arr[3][3];
+	char checkret;
+	for (int i = 0; i < 3; ++i)
+		for (int j = 0; j < 3; ++j)
+			arr[i][j] =' ';
+	display(arr);
+
+	do
+	{
+		display(arr);
+		player_move(arr);
+
+		display(arr);
+		computer_move(arr);
+
+		checkret = check(arr);
+	} while (checkret!='u' || checkret != 'o');
+	
+
+	return 0;
+}
+
+void display(char arr[3][3])
+{
+	for (int i = 0; i < 3; ++i)
+	{
+		for (int j = 0; j < 3; ++j)
+		{
+			printf("| %c ",&arr[i][j]);
+		}
+		printf("|\n");
+	}
+}
+
+void player_move(char arr[3][3])
+{
+	int i, j;
+	printf("\nEnter the 1 at any blank position :");
+	printf("\nEnter row and column :");
+	scanf_s("%d %d", &i, &j);
+	if (arr[i][j] == ' ' || arr[i][j] != 'O')
+	{
+		arr[i][j] = 'X';
+	}
+}
+
+void computer_move(char arr[3][3])
+{
+	//horizontal
+	for (int i = 0; i < 3; i++)
+	{
+		//for arr1
+		if (arr[i][0] == arr[i][1] && arr[i][2]==' '&&arr[i][1]!=' '&& arr[i][0] != ' ')
+		{
+			//add computer move
+			arr[i][2] = 'O';
+			break;
+
+		}
+		else if (arr[i][0] == arr[i][2] && arr[i][1]==' '&&arr[i][0] != ' '&&arr[i][2] != ' ')
+		{
+			arr[i][1] = 'O';
+			break;
+		}
+		else if (arr[i][1] == arr[i][2]  && arr[i][0]==' '&& arr[i][1] != ' '&& arr[i][2] != ' ')
+		{
+			arr[i][0] = 'O';
+			break;
+		}
+	}
+
+	//check vertical
+	for (int i = 0; i < 3; i++)
+	{
+		if (arr[0][i] == arr[2][i] && arr[1][i]==' '&&arr[0][i]!=' '&&arr[2][i] != ' ')
+		{
+			arr[1][i] = 'O';
+			break;
+		}
+		else if (arr[0][i] == arr[1][i] && arr[2][i]==' ' &&arr[0][i]!=' '&&arr[1][i]!=' ')
+		{
+			arr[2][i] = 'O';
+			break;
+		}
+		else if (arr[1][i] == arr[2][i] && arr[0][i]==' ' && arr[1][i]!=' ' && arr[2][i] != ' ')
+		{
+			arr[0][i] = 'O';
+		}
+
+	}
+	//check left diagonally
+	if (arr[0][0] == arr[1][1] && arr[2][2]==' ' &&arr[0][0]!=' '&&arr[1][1]!=' ')
+	{
+		arr[2][2] = 'O';
+	}
+	else if (arr[0][0] == arr[2][2] && arr[1][1]==' ' &&arr[0][0]!=' '&&arr[2][2] != ' ')
+	{
+		arr[1][1] = 'O';
+	}
+	else if (arr[1][1] == arr[2][2]&&arr[0][0] == ' ' &&arr[1][1] != ' '&&arr[2][2] != ' ')
+	{
+		arr[0][0] = 'O';
+	}
+
+	//right diagonal
+	if (arr[0][2] == arr[1][1] && arr[2][0]==' '&& arr[0][2] == ' '&& arr[1][1] != ' ')
+	{
+		arr[2][0] = 'O';
+	}
+	else if (arr[0][2] == arr[2][0] && arr[1][1]==' '&&arr[0][2]!=' '&&arr[2][0] != ' ')
+	{
+		arr[1][1] = 'O';
+	}
+	else if (arr[1][1] == arr[0][2] && arr[2][0]==' '&& arr[1][1]!=' '&& arr[0][2] != ' ')
+	{
+		arr[2][0] = 'O';
+	}
+	// random
+	for (int i = 0; i < 3; ++i)
+	{
+		for (int j = 0; j < 3; ++j)
+		{
+			if (arr[i][j] == ' ')
+			{
+				arr[i][j] = 'O';
+				break;
+
+			}
+		}
+	}
+}
+
+void check(char arr[3][3])
+{
+	//horizontal
+	for (int i = 0; i < 3; i++)
+	{
+		if ((arr[i][0] == 'X' && arr[i][1] == 'X' &&arr[i][2] == 'X'))
+		{
+			printf("\nUser wins ");
+			break;
+		}
+	}
+
+	//horizontal 
+	for (int i = 0; i < 3; i++)
+	{
+		if ((arr[i][0] == 'O' && arr[i][1] == 'O' &&arr[i][2] == 'O'))
+		{
+			printf("\nComputer wins ");
+			break;
+		}
+	}
+
+	//vertical
+	for (int i = 0; i < 3; i++)
+	{
+		if ((arr[0][i] == 'X' && arr[1][i] == 'X' && arr[2][i] == 'X'))
+		{
+			printf("\nUser wins ");
+			break;
+		}
+	}
+
+	//vertical 
+	for (int i = 0; i < 3; i++)
+	{
+		if ((arr[0][i] == 'O' && arr[1][i] == 'O' && arr[2][i] == 'O'))
+		{
+			printf("\nComputer wins ");
+			break;
+		}
+	}
+
+	//diagonal
+	if (arr[0][0] == 'X' && arr[1][1] == 'X' && arr[2][2] == 'X')
+	{
+		printf("\nUser wins");
+		//return 'u';
+	}
+	if (arr[0][0] == 'O' && arr[1][1] == 'O' && arr[2][2] == 'O')
+	{
+		printf("\nComputer wins");
+		//return 'o';
+	}
+
+	//diagonal
+	if (arr[0][2] == 'X' && arr[1][1] == 'X' && arr[2][0] == 'X')
+	{
+		printf("\nUser wins");
+		//return 'u';
+	}
+	if (arr[0][2] == 'O' && arr[1][1] == 'O' && arr[2][0] == 'O')
+	{
+		printf("\nComputer wins");
+		//return 'o';
+	}
+}
